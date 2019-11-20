@@ -8,14 +8,11 @@ from datagenerator import DataGenerator, DataGenerator_predict
 from glob import glob
 
 # load data
-X_train = glob("D:/128_X/*jpg")
-# X_train = X_train[:237987] # 100
-X_train = X_train[119889:] # 50
-X_predict = X_train[:119889]
-# print(X_train)
-Y_train = glob("D:/128_Y/*jpg")
-# Y_train = Y_train[:237987]
-Y_train = Y_train[119889:]
+X = glob("D:/128_X/*jpg")
+X_train = X[119889:] # 50
+X_predict = X[:119889]
+Y = glob("D:/128_Y/*jpg")
+Y_train = Y[119889:]
 
 # parameters
 height = 128
