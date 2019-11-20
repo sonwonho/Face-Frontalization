@@ -23,14 +23,14 @@ optimizerD = Adam(lr = 2e-6, beta_1 = 0.5, decay = 1e-5)
 optimizerC = Adam(lr = 2e-4, beta_1 = 0.5)
 number = 0
 
-X_train = glob("D:/128_X/*jpg")
+X = glob("D:/128_X/*jpg")
 # X_train = X_train[:237987] # 100
-X_train = X_train[119889:] # 50
-X_predict = X_train[:119889]
+X_train = X[119889:] # 50
+X_predict = X[:119889]
 # print(X_train)
-Y_train = glob("D:/128_Y/*jpg")
-# Y_train = Y_train[:237987]
-Y_train = Y_train[119889:]
+Y = glob("D:/128_Y/*jpg")
+# Y_train = Y_train[:237987]s
+Y_train = Y[119889:]
 
 # print(Y_train)
 # X_predict = glob("D:/bitproject data/origin/*jpg")
