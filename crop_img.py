@@ -7,7 +7,7 @@ import glob
 STD_SIZE = 128
 
 folder_path = 'D:/Selected_Img'
-dlib_landmark_model = 'swh/models/shape_predictor_68_face_landmarks.dat'
+dlib_landmark_model = 'models/shape_predictor_68_face_landmarks.dat'
 face_regressor = dlib.shape_predictor(dlib_landmark_model)
 face_detector = dlib.get_frontal_face_detector()
 
