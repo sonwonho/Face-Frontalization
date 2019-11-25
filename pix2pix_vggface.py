@@ -5,7 +5,7 @@ from keras.optimizers import Adam
 import matplotlib.pyplot as plt
 import numpy as np
 import os
-from datagenerator_read_dir_face import DataGenerator, DataGenerator_predict
+from datagenerator import DataGenerator, DataGenerator_predict
 from glob import glob
 from keras.preprocessing.image import ImageDataGenerator, array_to_img, img_to_array, load_img
 
@@ -14,7 +14,7 @@ width = 128
 channels = 3
 batch_size = 64
 epochs = 100
-line = 112
+line = 115
 n_show_image = 1
 vgg = VGGFace(include_top=False, model="vgg16", input_shape=(128, 128, 3), weights= 'vggface')
 vgg.trainable = False
