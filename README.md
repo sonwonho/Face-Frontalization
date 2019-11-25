@@ -1,3 +1,5 @@
+# README.md
+
 # Face Frontalization
 
 ---
@@ -9,6 +11,18 @@
 **측면 얼굴 이미지를 이용하여 정면 얼굴 이미지를 예측하는 딥러닝 모델입니다.**
 
  사람의 측면 사진만 보유하고 있을시 이 사람의 정면이 어떻게 생겼는지 궁금할 때가 있었을 것입니다. 예를 들어 소개팅을 받게 되었을 경우 소개팅 대상의 측면 사진만 있을 상황 처럼 일상 생활에서 재미삼아 사용이 가능하고, 더 나아가서 범행현장 CCTV에서 범인의 측면 얼굴만 찍혔을 경우 정면얼굴을 예측하여 몽타주로 활용이 가능하고, 백화점이나 마트에서 아이를 잃어버렸을 경우 등에서도 활용이 가능합니다.   
+
+## Requirements
+
+---
+
+ keras와 tensorflow-gpu 를 이용하여 모델링을 하였습니다.
+
+또한 얼굴 특징을 잘 찾기위하여 VGG16에 얼굴데이터를 가지고 학습시킨 VGGFace의 레이어와 weights를 이용하였습니다. keras버전 VGGFace는 아래 링크에서 확인 가능합니다.
+
+[rcmalli/keras-vggface](https://github.com/rcmalli/keras-vggface)
+
+자세한 사항은 [requirements.txt](https://github.com/sonwonho/Face-Frontalization/blob/master/requirements.txt) 에 있습니다.
 
 ## Data Set
 
@@ -31,7 +45,11 @@
 - Data set의 이미지가 배경 부분이 많아 모델이 학습하는데 얼굴의 특징에 집중하지 못하고 배경 특성 추출에도 노력을 하며, 이미지 사이즈가 크기에 GPU 메모리 사용량이 많아집니다.
 - 사용자가 예측하고 싶은 이미지는 다양한 크기와 얼굴이 사진에 차지하는 비율이 다르기에 일정한 기준으로 얼굴 부분만 잘라서 모델의 Input에 넣어주어야 합니다.
 
-위 두가지 원인으로 Dlib 라이브러리에서 지원하는 get_frontal_face_detector() 함수와 미리 학습된  얼굴의 68개 랜드마크를 찾는 모델을 이용하여  shape_predictor(dlib_landmark_model) 함수를 이용하여 Face Detection 후 Crop을 하였습니다.
+ 위 두가지 원인으로 Face Detecting 오픈 소스 중 다양한 각도를 찾을 수 있는 3DDFA를 참고하여 필요한 부분만 사용하였습니다.
+
+[cleardusk/3DDFA](https://github.com/cleardusk/3DDFA)
+
+Dlib 라이브러리에서 지원하는 get_frontal_face_detector() 함수와 미리 학습된  얼굴의 68개 랜드마크를 찾는 모델을 이용하여  shape_predictor(dlib_landmark_model) 함수를 이용하여 Face Detection 후 Crop을 하였습니다.
 
  모든 각도의 얼굴을 Detection 하지 못하고, 목, 귀등 얼굴이 아닌 다른 부분을 찾는 오류가 있습니다. 해당 오류들을 제외하고 데이터의 분포는 아래와 같습니다.
 
@@ -64,48 +82,6 @@
 
 ---
 
- **cvae.py**
-
-  Conditional Variational Autoencoder(CVAE)모델을 참고하여 만들었습니다.
-
-- Data
-
-    X = 정면 이미지를 포함한 13개 각도의 이미지(외국인 이미지)
-
-    Y = 각 각도별 라벨
-
-- Predictions
-
-    ![](./images/CVAE-40816668-6245-4bcd-b9cd-ead3fd430070.png)
-
-**dcgan.py**
-
- Deep Convolutional Generative Adversarial Networks(DCGAN)모델을 참고하여 만들었습니다.
-
-- Data
-
-    X = 정면을 제외한 다양한 각도의 이미지
-
-    Y = 각 각도에 1대1 매칭한 정면 이미지
-
-- Predictions
-
-    ![](./images/DCGAN-beeadbb1-570b-4641-a910-89e7a88c5206.png)
-
-**autoencoder_unet_vggface.py**
-
- Encoder 부분은 VGGFace레이어와 weights를 이용하였으며 특성을 더욱 잘 보존하기 위하여 U-net 구조를 이용하여 만들었습니다. 
-
-- Data
-
-    X = 정면을 제외한 다양한 각도의 이미지
-
-    Y = 각 각도에 1대1 매칭한 정면 이미지
-
-- Predictions
-
-    ![](./images/AE-7e437549-fff1-4848-b8c6-99f5073ac964.png)
-
 **pix2pix_vggface.py**
 
  Generator에는 autoencoder_unet_vggface.py의 모델과 구성을 같게 하였으며, Discriminator에는 선명한 결과를 위해 PacthGan 기법을 사용하여 pix2pix모델과 유사한 구조를 가진 모델을 만들었습니다.
@@ -116,14 +92,72 @@
 
     Y = 각 각도에 1대1 매칭한 정면 이미지
 
+- Structure
+
+    ![](./images/Pix2Pix_structure-03ba14f6-59a1-4c25-ac8e-c50c2c3aa0a9.png)
+
 - Predictions
 
     ![](./images/Pix2Pix-63cef2f6-65d4-4115-90ca-786376050573.png)
 
-    ## WEB
+**autoencoder_unet_vggface.py**
 
-    ---
+ Encoder 부분은 VGGFace레이어와 weights를 이용하였으며 특성을 더욱 잘 보존하기 위하여 U-net 구조를 이용하여 만들었습니다.
 
-    **아래의 웹사이트에서 예측이 가능합니다.**(2019년 11월 29일 까지 운영)
+- Data
 
-    [IMAGENIUS](http://imagenius.iptime.org:4/)
+    X = 정면을 제외한다양한 각도의 이미지
+
+    Y = 각 각도에 1대1 매칭한 정면 이미지
+
+- Structure
+
+    ![](./images/AE_structure-ddd8dd5a-b9be-4eea-8dd1-0891b39d347f.png)
+
+- Predictions
+
+    ![](./images/AE-8a884936-1e38-4c75-b7a2-e5aedfe57485.png)
+
+**dagan.py**
+
+ Deep Convolutional Generative Adversarial Networks(DCGAN) 모델을 참고하여 만들었습니다.
+
+- Data
+
+    X = 정면을 제외한 다양한 각도의 이미지
+
+    Y = 각 각도에 1대1 매칭한 정면 이미지
+
+- Structure
+
+    ![](./images/DCGAN_structure-e5843ed0-66a0-4a45-911a-3ff3b55f0cbe.png)
+
+- Predictions
+
+    ![](./images/DCGAN-207a1661-c5b0-40ae-9347-bd26977b0b2a.png)
+
+**cvae.py**
+
+Conditional Variational Autoencoder(CVAE) 모델을 참고하여 만들었습니다.
+
+- Data
+
+    X = 정면 이미지를 포함한 13개 각도의 이미지(외국인 이미지)
+
+    Y = 각 각도별 라벨
+
+- Structure
+
+    ![](./images/CVAE_structure-052a55c5-7409-4bd2-b5fa-f47c0774f184.png)
+
+- Predictions
+
+    ![](./images/CVAE-a3ec26ab-94f8-45ee-a6ec-dec5edb8da5c.png)
+
+## WEB
+
+---
+
+**아래의 웹사이트에서 예측이 가능합니다.**(2019년 11월 29일 까지 운영)
+
+[IMAGENIUS](http://imagenius.iptime.org:4/)
