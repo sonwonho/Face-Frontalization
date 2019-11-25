@@ -1,12 +1,12 @@
 from keras_vggface.vggface import VGGFace
 from keras_vggface.utils import preprocess_input
 from keras.engine import Model
-from keras.layers import Flatten, Dense, Input, Conv2D, Deconv2D, BatchNormalization, LeakyReLU, ReLU
+from keras.layers import Flatten, Dense, Input, Conv2D, Conv2DTranspose, BatchNormalization, LeakyReLU, ReLU, UpSampling2D, Concatenate
 from keras.optimizers import Adam
 import matplotlib.pyplot as plt
 import numpy as np
 import os
-from datagenerator_read_dir_face import DataGenerator, DataGenerator_predict
+from datagenerator import DataGenerator, DataGenerator_predict
 from glob import glob
 from keras.preprocessing.image import ImageDataGenerator, array_to_img, img_to_array, load_img
 
@@ -56,10 +56,10 @@ class TestModel():
 
         return output
 
-    def deconv2d_block(self, layers, filters, kernel_size = (4, 4), strides = 2, momentum = 0.8, alpha = 0.2):
+    def Conv2DTranspose_block(self, layers, filters, kernel_size = (4, 4), strides = 2, momentum = 0.8, alpha = 0.2):
         input = layers
 
-        layer = Deconv2D(filters = filters, kernel_size = kernel_size, strides = strides, padding = 'same')(input)
+        layer = Conv2DTranspose(filters = filters, kernel_size = kernel_size, strides = strides, padding = 'same')(input)
         layer = BatchNormalization(momentum = momentum)(layer)
         output = LeakyReLU(alpha = alpha)(layer)
     

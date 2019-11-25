@@ -38,7 +38,7 @@ def conv2d_block(layers, filters, kernel_size = (4, 4), strides = 2, momentum = 
 
     return output
 
-def deconv2d_block(layers, filters, kernel_size = (4, 4), strides = 2, momentum = 0.8, alpha = 0.2):
+def Conv2DTranspose_block(layers, filters, kernel_size = (4, 4), strides = 2, momentum = 0.8, alpha = 0.2):
     input = layers
 
     layer = Conv2DTranspose(filters = filters, kernel_size = kernel_size, strides = strides, padding = 'same')(input)
@@ -99,12 +99,12 @@ class Gan():
         layers = conv2d_block(layers, 512)
         layers = conv2d_block(layers, 512)   
 
-        layers = deconv2d_block(layers, 512)
-        layers = deconv2d_block(layers, 256)
-        layers = deconv2d_block(layers, 128)
-        layers = deconv2d_block(layers, 64)
-        layers = deconv2d_block(layers, 32)
-        layers = deconv2d_block(layers, 16)
+        layers = Conv2DTranspose_block(layers, 512)
+        layers = Conv2DTranspose_block(layers, 256)
+        layers = Conv2DTranspose_block(layers, 128)
+        layers = Conv2DTranspose_block(layers, 64)
+        layers = Conv2DTranspose_block(layers, 32)
+        layers = Conv2DTranspose_block(layers, 16)
         output = Conv2DTranspose(filters = 3, kernel_size = (4, 4), strides = 2, activation = 'tanh', padding = 'same')(layers)
   
         model = Model(input, output)

@@ -1,5 +1,5 @@
 import numpy as np
-from keras.layers import Input, Dense, Conv2D, Lambda, concatenate, MaxPool2D, Reshape, Flatten, UpSampling2D, Deconv2D
+from keras.layers import Input, Dense, Conv2D, Lambda, concatenate, MaxPool2D, Reshape, Flatten, UpSampling2D
 from keras.models import Model, Sequential
 from keras.utils import to_categorical
 from keras import backend as K

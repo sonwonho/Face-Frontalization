@@ -73,7 +73,7 @@ class vggGan():
 
         return output
 
-    def deconv2d_block(self, layers, filters, kernel_size = (4, 4), strides = 2, momentum = 0.8, alpha = 0.2):
+    def Conv2DTranspose_block(self, layers, filters, kernel_size = (4, 4), strides = 2, momentum = 0.8, alpha = 0.2):
         
         input = layers
         layer = Conv2DTranspose(filters = filters, kernel_size = kernel_size, strides = strides, padding = 'same')(input)
@@ -103,13 +103,13 @@ class vggGan():
         conv3 = self.vgg.get_layer("conv3_3").output
         conv4 = self.vgg.get_layer("conv4_3").output
         conv5 = self.vgg.get_layer("conv5_3").output
-        layers = self.deconv2d_block(input, 512)
+        layers = self.Conv2DTranspose_block(input, 512)
         layers = Concatenate(axis=-1) ([layers, conv5])
-        layers = self.deconv2d_block(layers, 512)
+        layers = self.Conv2DTranspose_block(layers, 512)
         layers = Concatenate(axis=-1) ([layers, conv4])
-        layers = self.deconv2d_block(layers, 256)
+        layers = self.Conv2DTranspose_block(layers, 256)
         layers = Concatenate(axis=-1) ([layers, conv3])
-        layers = self.deconv2d_block(layers, 128)
+        layers = self.Conv2DTranspose_block(layers, 128)
         layers = Concatenate(axis=-1) ([layers, conv2])
         output = Conv2DTranspose(filters = 3, kernel_size = (4, 4), strides = 2, activation = 'tanh', padding = 'same')(layers)
         model = Model(self.vgg.input, output)
