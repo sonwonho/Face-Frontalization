@@ -116,7 +116,7 @@ Dlib 라이브러리에서 지원하는 get_frontal_face_detector() 함수와 �
 
     ![](./images/AE-8a884936-1e38-4c75-b7a2-e5aedfe57485.png)
 
-**dagan.py**
+**dcgan.py**
 
  Deep Convolutional Generative Adversarial Networks(DCGAN) 모델을 참고하여 만들었습니다.
 
@@ -132,7 +132,7 @@ Dlib 라이브러리에서 지원하는 get_frontal_face_detector() 함수와 �
 
 - Predictions
 
-    ![](./images/DCGAN-207a1661-c5b0-40ae-9347-bd26977b0b2a.png)
+    ![](./images/DCGAN-beeadbb1-570b-4641-a910-89e7a88c5206.png)
 
 **cvae.py**
 
